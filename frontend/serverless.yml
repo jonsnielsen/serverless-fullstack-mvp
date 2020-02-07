@@ -1,0 +1,4 @@
+my-app: # Change this to you app name
+  component: serverless-next.js
+  # inputs:
+  # domain: ["www", "<MYDOMAIN>"] #e.g. ["www", "mydomain.com"]
