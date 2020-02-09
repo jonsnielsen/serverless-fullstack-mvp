@@ -9,7 +9,7 @@
     "target": "es2017",
     "outDir": "lib"
   },
-  "include": ["./**/*.ts", "src/api/graphqlServer.ts"],
+  "include": ["./**/*.ts", "services/api/api/graphqlServer.ts"],
   "exclude": [
     "node_modules/**/*",
     ".serverless/**/*",

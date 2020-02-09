@@ -12,13 +12,7 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "apollo-server-lambda": "^2.9.7",
-    "graphql": "^14.5.8",
-    "jsonwebtoken": "^8.5.1",
-    "jwk-to-pem": "^2.0.1",
-    "request": "^2.88.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/aws-lambda": "^8.10.39",
     "@types/node": "^12.12.21",
