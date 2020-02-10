@@ -5,4 +5,5 @@ dist/
 .next/
 .vscode/
 *.env
+# TODO remove .serverless from ignore list
 .serverless/

@@ -13,16 +13,39 @@ provider:
 
 resources:
   Resources:
+    CognitoUserPoolDomain:
+      Type: AWS::Cognito::UserPoolDomain
+      Properties:
+        Domain: ${self:custom.stage}-postapp
+        UserPoolId:
+          Ref: CognitoUserPool
     CognitoUserPool:
       Type: AWS::Cognito::UserPool
       Properties:
         # Generate a name based on the stage
         UserPoolName: ${self:custom.stage}-postapp-user-pool
         # Set email as an alias
-        UsernameAttributes:
+
+        AliasAttributes:
           - email
+          - preferred_username
         AutoVerifiedAttributes:
           - email
+        VerificationMessageTemplate:
+          DefaultEmailOption: CONFIRM_WITH_LINK
+        Schema:
+          - Mutable: false
+            Name: name
+            Required: true
+          - Mutable: true
+            Name: email
+            Required: true
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 8
+            RequireLowercase: true
+            RequireNumbers: true
+            RequireUppercase: true
 
     CognitoUserPoolClient:
       Type: AWS::Cognito::UserPoolClient

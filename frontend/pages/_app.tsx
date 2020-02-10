@@ -4,6 +4,11 @@ import Head from 'next/head'
 import { ThemeProvider } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from 'src/config/theme'
+import { AuthProvider } from 'src/components/auth/auth.context'
+import Auth from '@aws-amplify/auth'
+import amplifyConfig from 'src/config/amplifyConfig'
+
+Auth.configure(amplifyConfig)
 
 class MyApp extends App {
   componentDidMount() {
@@ -25,7 +30,9 @@ class MyApp extends App {
         </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Component {...pageProps} />
+          <AuthProvider>
+            <Component {...pageProps} />
+          </AuthProvider>
         </ThemeProvider>
       </React.Fragment>
     )
