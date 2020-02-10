@@ -9,12 +9,12 @@ import {
   IUser,
 } from './auth.types'
 import Auth from '@aws-amplify/auth'
-import { USER_COOKIE } from './auth.constants'
 
 interface IAuthContext {
   login(loginRequest: ILoginRequest): ILoginResponse
   logout(): ILogoutResponse
   signup(signupRequest: ISignupRequest): ISignupResponse
+  isLoggedIn(): Promise<boolean>
   getAuthToken(): Promise<string | null>
   user: IUser | null
 }
@@ -25,6 +25,14 @@ interface IAuthProvider {
 }
 const AuthProvider: React.FC<IAuthProvider> = ({ ...rest }) => {
   const [user, setUser] = useState<IUser | null>(null)
+
+  async function isLoggedIn() {
+    if (user) return true
+    const userInfo = await Auth.currentUserInfo()
+
+    console.log(userInfo)
+    return false
+  }
 
   async function login({ email, password }: ISignupRequest) {
     try {
@@ -62,7 +70,6 @@ const AuthProvider: React.FC<IAuthProvider> = ({ ...rest }) => {
       })
       return AuthType.SIGNUP_SUCCESS
     } catch (err) {
-      console.log(err)
       return err.code
     }
   }
@@ -83,6 +90,7 @@ const AuthProvider: React.FC<IAuthProvider> = ({ ...rest }) => {
         user,
         login,
         logout,
+        isLoggedIn,
         signup,
       }}
       {...rest}
