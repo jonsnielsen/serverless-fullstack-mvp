@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "export STAGE=dev && next",
     "start": "next start",
-    "build": "next build",
-    "deploy": "sls"
+    "build": "export STAGE=dev && next build",
+    "deploy": "export STAGE=staging && serverless --stage=staging",
+    "deploy-prod": "export STAGE=prod && serverless --stage=prod",
+    "remove": "serverless remove --stage=staging",
+    "remove-prod": "serverless remove --stage=prod"
   },
   "keywords": [],
   "author": "",
