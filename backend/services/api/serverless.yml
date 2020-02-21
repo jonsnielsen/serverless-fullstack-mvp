@@ -1,10 +1,12 @@
-service: postapp-api
+org: <MY_SERVERLESS_ORG> # Sign up on https://serverless.com/dashboard/ if you don't already have a tenant
+app: <APP_NAME> # create/add app on dashboard.serverless.com
+service: post-api
 
 plugins:
   - serverless-webpack
 
 custom:
-  stage: ${self:provider.stage}
+  common: ${file(../../serverless.common.yml):common}
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
@@ -12,31 +14,63 @@ custom:
 provider:
   name: aws
   runtime: nodejs10.x
-  stage: ${opt:stage, 'dev'} # Use 'sls deploy --stage prod' for deploying to production
+  stage: ${self:custom.common.stage}
   region: us-east-1
+  profile: ${self:custom.common.awsProfile}
+  environment:
+    STAGE: ${self:custom.common.stage} # stage environment variable needed in the javascript code
+    POST_TABLE_NAME: ${self:custom.common.stage}-${self:custom.common.appName}-postTable
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:BatchGetItem
+      Resource:
+        'Fn::ImportValue': ${self:custom.common.stage}-ExtPostTableArn
 
 functions:
+  auth:
+    handler: src/handler.authHandler
   graphql:
     handler: handler.graphqlHandler
     events:
       - http:
           path: graphql
           method: post
-          cors: true
+          cors:
+            origins: ${self:custom.common.endpoints.${self:custom.common.stage}.all} # Conditional endpoints depending on stage
+            allowCredentials: true
       - http:
           path: graphql
           method: get
-          cors: true
+          cors:
+            origins: ${self:custom.common.endpoints.${self:custom.common.stage}.all} # Conditional endpoints depending on stage
+            allowCredentials: true
 
 resources:
+  Resources:
+    GatewayResponse: # Allowing cors for unsuccessful requests. see: https://github.com/serverless/serverless/issues/3896#issuecomment-326721971
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: EXPIRED_TOKEN
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+        StatusCode: '401'
   Outputs:
-    ApiGatewayApiId:
+    ApiGatewayApiId: # Allows other services importing this id to use the same api gateway endpoint
       Value:
         Ref: ApiGatewayRestApi
       Export:
-        Name: ${self:custom.stage}-ExtApiGatewayApiId
+        Name: ${self:custom.common.stage}-ExtApiGatewayApiId-${self:custom.common.appName}
 
     ApiGatewayApiRootResourceId:
       Value:
@@ -44,4 +78,4 @@ resources:
           - ApiGatewayRestApi
           - RootResourceId
       Export:
-        Name: ${self:custom.stage}-ExtApiGatewayApiRootResourceId
+        Name: ${self:custom.common.stage}-ExtApiGatewayApiRootResourceId-${self:custom.common.appName}

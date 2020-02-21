@@ -1,0 +1,18 @@
+common:
+  stage: ${opt:stage, 'dev'} # Use 'sls deploy --stage prod' for deploying to production. Default is 'dev'
+  appName: postapp
+  awsProfile: <AWS_PROFILE> # how to create an AWS profile: https://serverless-stack.com/chapters/configure-multiple-aws-profiles.html
+  endpoints:
+    dev:
+      all:
+        - <ENDPOINT> # eg. http://localhost:3000
+        - <ENDPOINT> # eg. https://myfrontenddevendpoint.com
+      default: <ENDPOINT> # eg. https://myfrontenddevendpoint.com
+    prod:
+      all:
+        - <ENDPOINT> # eg. https://myfrontendprodendpoint.com
+      default:
+        - <ENDPOINT> # eg. https://myfrontendprodendpoint.com
+  # region: Due to a bug, the region cannot be referened from other serverless.yml files
+  # app: App cannot be set using variables, so must be defined in files that need it
+  # org: Org cannot be set using variables, so must be defined in files that need it
