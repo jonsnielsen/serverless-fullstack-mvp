@@ -2,7 +2,9 @@ import React from 'react'
 import Document, { Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/styles'
 import theme from 'src/config/theme'
-
+/**
+ * Document is only rendered during server side rendering
+ */
 export default class MyDocument extends Document {
   render() {
     return (
@@ -29,6 +31,9 @@ export default class MyDocument extends Document {
   }
 }
 
+/**
+ * in Document, getInitialProps won't be called when the page is statically optimized
+ */
 MyDocument.getInitialProps = async ctx => {
   // Resolution order
   //
@@ -58,6 +63,7 @@ MyDocument.getInitialProps = async ctx => {
 
   ctx.renderPage = () =>
     originalRenderPage({
+      // @ts-ignore
       enhanceApp: App => props => sheets.collect(<App {...props} />),
     })
 

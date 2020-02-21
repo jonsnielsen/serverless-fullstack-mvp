@@ -8,7 +8,7 @@ interface IPublicRoute {
   children: any
 }
 const PublicRoute: React.FC<IPublicRoute> = ({
-  pathToRedirectTo = '/dashboard',
+  pathToRedirectTo = '/home',
   redirectIfLoggedIn,
   children,
 }) => {

@@ -1,12 +1,10 @@
 import React from 'react'
-import Head from 'next/head'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { ApolloClient } from 'apollo-client'
-import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory'
-import { NextPage, NextPageContext } from 'next'
+import { NormalizedCacheObject } from 'apollo-cache-inmemory'
+import { NextPage } from 'next'
 import initApollo from './initApollo'
 import { useAuth } from 'src/components/auth'
-import { IUser } from 'src/components/auth/auth.types'
 
 /**
  * Creates and provides the apolloContext

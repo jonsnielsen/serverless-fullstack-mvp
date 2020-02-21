@@ -11,6 +11,7 @@ module.exports = {
   },
   env: {
     STAGE: process.env.STAGE,
+    REGION: '<AWS_REGION>',
     ENDPOINT:
       process.env.STAGE === 'dev'
         ? 'localhost'
