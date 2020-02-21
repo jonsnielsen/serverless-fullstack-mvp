@@ -26,8 +26,7 @@ resources:
             KeyType: HASH
           - AttributeName: postId
             KeyType: RANGE
-        # Set the capacity to auto-scale
-        BillingMode: PAY_PER_REQUEST
+        BillingMode: PAY_PER_REQUES # Set the capacity to auto-scaleT
 
   Outputs:
     PostTableArn:
