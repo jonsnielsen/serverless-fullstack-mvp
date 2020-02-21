@@ -5,6 +5,7 @@ export enum AuthType {
   USERNAME_EXISTS = 'UsernameExistsException',
   NOT_AUTHORIZED = 'NotAuthorizedException',
   INVALID_PASSWORD = 'InvalidPasswordException',
+  USER_NOT_CONFIRMED = 'UserNotConfirmedException',
 }
 
 export interface IUser {

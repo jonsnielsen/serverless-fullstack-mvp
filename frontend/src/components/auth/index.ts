@@ -1,3 +1,3 @@
-import { useAuth, getAuthToken } from './auth.context'
+import { useAuth } from './auth.context'
 
-export { useAuth, getAuthToken }
+export { useAuth }

@@ -72,8 +72,14 @@ const Login: React.FC = () => {
                 }}
                 autoComplete="email"
                 autoFocus
-                error={errors.email}
-                helperText={errors.email}
+                error={
+                  !!errors.email || errorState === AuthType.USERNAME_EXISTS
+                }
+                helperText={
+                  errors.email ||
+                  (errorState === AuthType.USERNAME_EXISTS &&
+                    'This email is already in use')
+                }
               />
               <Field
                 as={TextField}

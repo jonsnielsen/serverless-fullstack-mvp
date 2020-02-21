@@ -121,6 +121,12 @@ resources:
     UserPoolClientId:
       Value:
         Ref: CognitoUserPoolClient
+
+    UserPoolArn:
+      Value:
+        Fn::GetAtt: CognitoUserPool.Arn
+      Export:
+        Name: ${self:custom.stage}-ExtUserPoolArn
     # IdentityPoolId:
     #   Value:
     #     Ref: CognitoIdentityPool

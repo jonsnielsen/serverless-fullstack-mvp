@@ -49,8 +49,22 @@ Notes: It might take
 
 Serverless component - Nextjs: https://serverless.com/blog/serverless-nextjs/
 
+### Serverless
+
+https://www.youtube.com/watch?v=UGrGce6-cX4&t=1851s (David wells)
+https://www.alexdebrie.com/posts/lambda-custom-authorizers/#custom-authorizer-responses
+
+### GraphQL
+
+https://www.formidable.com/blog/2019/strong-typing/
+
 ### Dynamodb
 
 https://www.dynamodbguide.com/  
 https://www.alexdebrie.com/posts/dynamodb-single-table/ (key takeaway: When using graphql, use seperate tables per data model instead of single-table-design)
 https://www.youtube.com/watch?v=HaEPXoXVf2k (key takeaways: use eventually consistent )
+
+### CORS
+
+https://serverless.com/blog/cors-api-gateway-survival-guide/
+https://serverless.com/framework/docs/providers/aws/events/apigateway/#enabling-cors

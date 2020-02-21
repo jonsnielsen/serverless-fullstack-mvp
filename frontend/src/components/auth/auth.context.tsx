@@ -76,7 +76,9 @@ const AuthProvider: React.FC<IAuthProvider> = ({ ...rest }) => {
 
   async function getAuthToken() {
     try {
-      const userCred = await (await Auth.currentUserCredentials()).sessionToken
+      const userCred = await (await Auth.currentSession())
+        .getIdToken()
+        .getJwtToken()
       return userCred
     } catch (err) {
       return null
