@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "deploy": "sls deploy",
+    "deploy-prod": "sls deploy --stage prod",
+    "remove": "sls remove",
+    "remove-prod": "sls remove --stage dev"
+  }
+}

@@ -1,4 +1,4 @@
-import { endpoints } from '../../../config'
+import { endpoints } from '../../../serverless.config.json'
 import graphqlServer from './graphql/graphqlServer'
 import { authorize } from './auth'
 
@@ -13,7 +13,7 @@ export const graphqlHandler = (event, context, callback) => {
     event.headers.origin
   )
     ? event.headers.origin
-    : '*'
+    : ''
   // if (ALLOWED_ORIGINS.includes(event.headers.origin)) {
   //   origin = event.headers.origin
   // } else {

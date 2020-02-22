@@ -4,6 +4,7 @@
     "removeComments": true,
     "moduleResolution": "node",
     "noUnusedLocals": true,
+    "resolveJsonModule": true,
     "noUnusedParameters": true,
     "alwaysStrict": true,
     "sourceMap": true,

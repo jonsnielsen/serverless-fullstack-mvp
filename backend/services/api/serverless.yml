@@ -6,7 +6,7 @@ plugins:
   - serverless-webpack
 
 custom:
-  common: ${file(../../serverless.common.yml):common}
+  config: ${file(../../serverless.config.json)}
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
@@ -14,12 +14,12 @@ custom:
 provider:
   name: aws
   runtime: nodejs10.x
-  stage: ${self:custom.common.stage}
-  region: us-east-1
-  profile: ${self:custom.common.awsProfile}
+  stage: ${self:custom.config.stage}
+  region: ${self:custom.config.region}
+  profile: ${self:custom.config.awsProfile}
   environment:
-    STAGE: ${self:custom.common.stage} # stage environment variable needed in the javascript code
-    POST_TABLE_NAME: ${self:custom.common.stage}-${self:custom.common.appName}-postTable
+    STAGE: ${self:custom.config.stage} # stage is needed in the javascript code
+    POST_TABLE_NAME: ${self:custom.config.stage}-${self:custom.config.appName}-postTable
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   iamRoleStatements:
@@ -32,7 +32,7 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:BatchGetItem
       Resource:
-        'Fn::ImportValue': ${self:custom.common.stage}-ExtPostTableArn
+        'Fn::ImportValue': ${self:custom.common.appName}-${self:custom.common.stage}-ExtPostTableArn
 
 functions:
   auth:
@@ -44,13 +44,13 @@ functions:
           path: graphql
           method: post
           cors:
-            origins: ${self:custom.common.endpoints.${self:custom.common.stage}.all} # Conditional endpoints depending on stage
+            origins: ${self:custom.config.endpoints.${self:custom.config.stage}.all} # Conditional endpoints depending on stage
             allowCredentials: true
       - http:
           path: graphql
           method: get
           cors:
-            origins: ${self:custom.common.endpoints.${self:custom.common.stage}.all} # Conditional endpoints depending on stage
+            origins: ${self:custom.config.endpoints.${self:custom.config.stage}.all} # Conditional endpoints depending on stage
             allowCredentials: true
 
 resources:
@@ -66,11 +66,11 @@ resources:
           Ref: 'ApiGatewayRestApi'
         StatusCode: '401'
   Outputs:
-    ApiGatewayApiId: # Allows other services importing this id to use the same api gateway endpoint
+    ApiGatewayApiId: # Allow other services to use the same api gateway endpoint
       Value:
         Ref: ApiGatewayRestApi
       Export:
-        Name: ${self:custom.common.stage}-ExtApiGatewayApiId-${self:custom.common.appName}
+        Name: ${self:custom.config.appName}-${self:custom.config.stage}-ExtApiGatewayApiId
 
     ApiGatewayApiRootResourceId:
       Value:
@@ -78,4 +78,4 @@ resources:
           - ApiGatewayRestApi
           - RootResourceId
       Export:
-        Name: ${self:custom.common.stage}-ExtApiGatewayApiRootResourceId-${self:custom.common.appName}
+        Name: ${self:custom.config.appName}-${self:custom.config.stage}-ExtApiGatewayApiRootResourceId

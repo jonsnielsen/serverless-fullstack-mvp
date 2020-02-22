@@ -1,14 +1,15 @@
 service: postapp-database
 
 custom:
-  common: ${file(../../serverless.common.yml):common}
+  common: ${file(../../serverless.config.json)}
   postTableName: ${self:custom.common.appName}-${self:custom.common.stage}-postTable
 
 provider:
   name: aws
   stage: ${self:custom.common.stage}
   profile: ${self:custom.common.awsProfile}
-  region: us-east-1
+  # region: us-east-1
+  region: ${self:custom.common.region}
 
 resources:
   Resources:
@@ -26,7 +27,7 @@ resources:
             KeyType: HASH
           - AttributeName: postId
             KeyType: RANGE
-        BillingMode: PAY_PER_REQUES # Set the capacity to auto-scaleT
+        BillingMode: PAY_PER_REQUEST # Set the capacity to auto-scaleT
 
   Outputs:
     PostTableArn:

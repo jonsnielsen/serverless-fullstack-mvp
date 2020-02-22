@@ -1,13 +1,13 @@
 service: postapp-user-pool
 
 custom:
-  common: ${file(../../serverless.common.yml):common}
+  common: ${file(../../serverless.config.json)}
 
 provider:
   name: aws
   stage: ${self:custom.common.stage}
   profile: ${self:custom.common.awsProfile}
-  region: us-east-1
+  region: ${self:custom.common.region}
 
 resources:
   Resources:
@@ -24,7 +24,7 @@ resources:
         # Set email as an alias
         AliasAttributes:
           - email
-          - preferred_username # preferred username can only be set after user verification. Do that programatically behind the scenes
+          - preferred_username # preferred username can only be set after user verification. Ask for username during signup, but set the preferred username v only after email confirmation.
         AutoVerifiedAttributes:
           - email
         VerificationMessageTemplate:
