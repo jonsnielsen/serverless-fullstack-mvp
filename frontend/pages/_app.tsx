@@ -31,7 +31,7 @@ class MyApp extends App {
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <AuthProvider user={user}>
+          <AuthProvider>
             <Component {...pageProps} />
           </AuthProvider>
         </ThemeProvider>
@@ -39,6 +39,5 @@ class MyApp extends App {
     )
   }
 }
-
 
 export default MyApp

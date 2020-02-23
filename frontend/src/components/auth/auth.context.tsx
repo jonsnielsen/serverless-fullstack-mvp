@@ -20,30 +20,30 @@ interface IAuthContext {
 }
 const AuthContext = createContext<IAuthContext | null>(null)
 
-interface IAuthProvider {
-  // user: IUser | null
-}
+interface IAuthProvider {}
 const AuthProvider: React.FC<IAuthProvider> = ({ ...rest }) => {
   const [user, setUser] = useState<IUser | null>(null)
 
   async function isLoggedIn() {
     if (user) return true
-    const userInfo = await Auth.currentUserInfo()
-
-    console.log(userInfo)
-    return false
+    try {
+      const userInfo = await Auth.currentUserInfo()
+      return !!userInfo
+    } catch (err) {
+      return false
+    }
   }
 
   async function login({ email, password }: ISignupRequest) {
     try {
       const cognitoUser = await Auth.signIn(email, password)
-
       const idToken = cognitoUser.signInUserSession.idToken.jwtToken
       const userAttributes = cognitoUser.attributes
       const user: IUser = { idToken, ...userAttributes }
       setUser(user)
       return AuthType.LOGIN_SUCCESS
     } catch (err) {
+      console.log('login error: ')
       return err.code
     }
   }
@@ -54,7 +54,7 @@ const AuthProvider: React.FC<IAuthProvider> = ({ ...rest }) => {
       setUser(null)
       return AuthType.LOGOUT_SUCCESS
     } catch (err) {
-      console.error({ err })
+      console.error('logout error: ', err)
       return err.code
     }
   }
@@ -81,6 +81,7 @@ const AuthProvider: React.FC<IAuthProvider> = ({ ...rest }) => {
         .getJwtToken()
       return userCred
     } catch (err) {
+      console.log('no auth token, err: ', err)
       return null
     }
   }

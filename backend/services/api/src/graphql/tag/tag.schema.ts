@@ -7,7 +7,7 @@ const typeDefs = gql`
   }
 
   extend type Mutation {
-    createTag(input: TagCreateInput): TagUpdateResponse!
+    createTag(input: TagCreateInput!): TagUpdateResponse!
   }
 
   type Tag {
@@ -19,7 +19,7 @@ const typeDefs = gql`
 
   input TagCreateInput {
     name: String!
-    posts: [Post!]!
+    posts: [ID!]!
   }
 
   type TagUpdateResponse {

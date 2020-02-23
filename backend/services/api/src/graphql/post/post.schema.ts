@@ -2,12 +2,12 @@ import { gql } from 'apollo-server-lambda'
 
 const typeDefs = gql`
   extend type Query {
-    posts: [Article]!
-    post(postId: ID!): Article
+    posts: [Post]!
+    post(postId: ID!): Post
   }
 
   extend type Mutation {
-    createPost(title: String, content: String): PostUpdateResponse!
+    createPost(input: PostCreateInput!): PostUpdateResponse!
   }
 
   type Post {
@@ -16,6 +16,11 @@ const typeDefs = gql`
     title: String!
     content: String
     # tags: [Tag!]!
+  }
+
+  input PostCreateInput {
+    title: String!
+    content: String
   }
 
   type PostUpdateResponse {

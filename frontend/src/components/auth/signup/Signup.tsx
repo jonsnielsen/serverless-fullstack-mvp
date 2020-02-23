@@ -38,9 +38,9 @@ const Signup: React.FC<ISignup> = ({}) => {
           })
           if (signupResponse === AuthType.SIGNUP_SUCCESS) {
             // redirect
-            Router.push('/dashboard')
+            Router.push('/home')
           } else {
-            console.log(signupResponse)
+            console.error(signupResponse)
             setErrorState(signupResponse)
           }
         }}

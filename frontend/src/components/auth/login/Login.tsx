@@ -45,7 +45,7 @@ const Login: React.FC = () => {
           const loginResponse = await login({ email, password })
 
           if (loginResponse === AuthType.LOGIN_SUCCESS) {
-            Router.push('/dashboard')
+            Router.push('/home')
           } else {
             setErrorState(loginResponse)
           }

@@ -1,16 +1,16 @@
 service: postapp-database
 
 custom:
-  common: ${file(../../serverless.config.json)}
-  postTableName: ${self:custom.common.appName}-${self:custom.common.stage}-postTable
-  tagTableName: ${self:custom.common.appName}-${self:custom.common.stage}-tagTable
+  config: ${file(../../serverless.config.json)}
+  postTableName: ${self:custom.config.appName}-${self:custom.config.stage}-postTable
+  tagTableName: ${self:custom.config.appName}-${self:custom.config.stage}-tagTable
 
 provider:
   name: aws
-  stage: ${self:custom.common.stage}
-  profile: ${self:custom.common.awsProfile}
+  stage: ${self:custom.config.stage}
+  profile: ${self:custom.config.awsProfile}
   # region: us-east-1
-  region: ${self:custom.common.region}
+  region: ${self:custom.config.region}
 
 resources:
   Resources:
@@ -53,11 +53,11 @@ resources:
           - PostTable
           - Arn
       Export:
-        Name: ${self:custom.common.appName}-${self:custom.common.stage}-ExtPostTableArn
+        Name: ${self:custom.config.appName}-${self:custom.config.stage}-ExtPostTableArn
     TagTableArn:
       Value:
         Fn::GetAtt:
           - TagTable
           - Arn
       Export:
-        Name: ${self:custom.common.appName}-${self:custom.common.stage}-ExtTagTableArn
+        Name: ${self:custom.config.appName}-${self:custom.config.stage}-ExtTagTableArn

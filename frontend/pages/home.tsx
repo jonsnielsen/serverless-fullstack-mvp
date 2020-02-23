@@ -7,26 +7,24 @@ import { withApollo } from 'src/lib/apollo'
 
 const TEST = gql`
   mutation homeMutation {
-    createPost {
+    createPost(input: { title: "Post 1", content: "Post 1 content" }) {
       success
     }
   }
 `
 
-const Dashboard: NextPage = ({ }) => {
-  const [createArticle, { data }] = useMutation(TEST)
+const Home: NextPage = ({}) => {
+  const [createPost, { data }] = useMutation(TEST)
   useEffect(() => {
-    createArticle()
+    createPost()
   }, [])
 
-  console.log('createArticle')
-  console.log(createArticle)
   console.log(data)
   return (
     // <AuthRoute>
-    <LayoutLoggedIn>Dashboard</LayoutLoggedIn>
+    <LayoutLoggedIn>Home</LayoutLoggedIn>
     // </AuthRoute>
   )
 }
 
-export default withApollo(Dashboard)
+export default withApollo(Home)

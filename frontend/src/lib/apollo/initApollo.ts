@@ -49,8 +49,7 @@ const authLink = ({ getAuthToken }: IOptions) =>
     } else {
       token = `Bearer ${token}`
     }
-
-    console.log(token)
+    console.log({ token })
     return {
       headers: {
         ...headers,
