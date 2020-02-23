@@ -3,7 +3,3 @@ build/
 dist/
 .serverless_nextjs/
 .next/
-.vscode/
-*.env
-# TODO remove .serverless from ignore list
-.serverless/

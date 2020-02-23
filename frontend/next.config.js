@@ -16,8 +16,8 @@ module.exports = {
       process.env.STAGE === 'dev'
         ? 'localhost'
         : process.env.STAGE === 'staging'
-          ? '<FRONTEND_ENDPOINT_STAGING>'
-          : '<FRONTEND_ENDPOINT_PROD',
+        ? '<FRONTEND_ENDPOINT_STAGING>'
+        : '<FRONTEND_ENDPOINT_PROD',
     ENDPOINT_API:
       process.env.STAGE === 'dev' || process.env.STAGE === 'staging'
         ? '<BACKEND_ENDPOINT_STAGING>'
@@ -32,6 +32,3 @@ module.exports = {
         : '<USER_POOL_WEB_CLIENT_ID_PROD>',
   },
 }
-
-USER_POOL_ID = 'eu-west-2_AgJZaGXrm'
-USER_POOL_WEB_CLIENT_ID = '643f82aoafj68q50sabq4opk3j'

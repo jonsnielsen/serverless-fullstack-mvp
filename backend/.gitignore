@@ -1,4 +1,1 @@
 node_modules/
-.vscode/
-# TODO remove .serverless from ignore list
-.serverless/ 

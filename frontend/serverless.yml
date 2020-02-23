@@ -1,2 +1,2 @@
-postapp: # Change this to you app name
+<APP_NAME>: # Change this to you app name
   component: serverless-next.js

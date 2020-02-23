@@ -2,8 +2,9 @@ import * as jwk from 'jsonwebtoken'
 import * as jwkToPem from 'jwk-to-pem'
 import * as request from 'request'
 import { ANONYMOUS_USER } from './types'
+import { cognitoIssuer } from '../../../serverless.config.json'
 
-const iss = 'https://cognito-idp.<REGION>.amazonaws.com/<USER_POOL_ID>'
+const iss = cognitoIssuer[process.env.STAGE]
 
 // Generate policy to allow this user on this API:
 const generatePolicy = (
@@ -29,6 +30,7 @@ const generatePolicy = (
 
 export const authorize = (event, context, cb) => {
   if (!event.authorizationToken || event.authorizationToken === 'NO_TOKEN') {
+    console.log('no auth token')
     // In case there is no authorization, allow the request to go through but set the principalId as anonymous user
     cb(null, generatePolicy(ANONYMOUS_USER, 'Allow', event.methodArn))
   } else {

@@ -15,12 +15,12 @@ provider:
   name: aws
   runtime: nodejs10.x
   stage: ${self:custom.config.stage}
-  region: ${self:custom.config.region}
+  region: us-east-1 # due to a bug, region value cannot come from a variable
   profile: ${self:custom.config.awsProfile}
   environment:
     STAGE: ${self:custom.config.stage} # stage is needed in the javascript code
-    POST_TABLE_NAME: ${self:custom.config.stage}-${self:custom.config.appName}-postTable
-    TAG_TABLE_NAME: ${self:custom.config.stage}-${self:custom.config.appName}-tagTable
+    POST_TABLE_NAME: ${self:custom.config.appName}-${self:custom.config.stage}-postTable
+    TAG_TABLE_NAME: ${self:custom.config.appName}-${self:custom.config.stage}-tagTable
 
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
@@ -34,26 +34,28 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:BatchGetItem
       Resource:
-        - 'Fn::ImportValue': ${self:custom.common.appName}-${self:custom.common.stage}-ExtPostTableArn
-        - 'Fn::ImportValue': ${self:custom.common.appName}-${self:custom.common.stage}-ExtTagTableArn
+        - 'Fn::ImportValue': ${self:custom.config.appName}-${self:custom.config.stage}-ExtPostTableArn
+        - 'Fn::ImportValue': ${self:custom.config.appName}-${self:custom.config.stage}-ExtTagTableArn
 
 functions:
   auth:
     handler: src/handler.authHandler
   graphql:
-    handler: handler.graphqlHandler
+    handler: src/handler.graphqlHandler
     events:
       - http:
           path: graphql
           method: post
+          authorizer: auth
           cors:
-            origins: ${self:custom.config.endpoints.${self:custom.config.stage}.all} # Conditional endpoints depending on stage
+            origins: ${self:custom.config.endpoints.${self:custom.config.stage}} # Conditional endpoints depending on stage
             allowCredentials: true
       - http:
           path: graphql
           method: get
+          authorizer: auth
           cors:
-            origins: ${self:custom.config.endpoints.${self:custom.config.stage}.all} # Conditional endpoints depending on stage
+            origins: ${self:custom.config.endpoints.${self:custom.config.stage}} # Conditional endpoints depending on stage
             allowCredentials: true
 
 resources:

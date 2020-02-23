@@ -1,1 +1,5 @@
+# TODO remove .serverless from ignore list. It needs to be checked in source control.
 .serverless
+*.real
+*.env
+.vscode/
