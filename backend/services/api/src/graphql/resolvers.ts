@@ -1,7 +1,7 @@
 import { merge } from 'lodash'
 import { postResolvers } from './post'
-import { helloResolvers } from './hello'
+import { tagResolvers } from './tag'
 
-const resolvers = merge(postResolvers, helloResolvers)
+const resolvers = merge(postResolvers, tagResolvers)
 
 export default resolvers

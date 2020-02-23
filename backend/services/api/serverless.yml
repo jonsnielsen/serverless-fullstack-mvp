@@ -20,6 +20,8 @@ provider:
   environment:
     STAGE: ${self:custom.config.stage} # stage is needed in the javascript code
     POST_TABLE_NAME: ${self:custom.config.stage}-${self:custom.config.appName}-postTable
+    TAG_TABLE_NAME: ${self:custom.config.stage}-${self:custom.config.appName}-tagTable
+
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   iamRoleStatements:
@@ -32,7 +34,8 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:BatchGetItem
       Resource:
-        'Fn::ImportValue': ${self:custom.common.appName}-${self:custom.common.stage}-ExtPostTableArn
+        - 'Fn::ImportValue': ${self:custom.common.appName}-${self:custom.common.stage}-ExtPostTableArn
+        - 'Fn::ImportValue': ${self:custom.common.appName}-${self:custom.common.stage}-ExtTagTableArn
 
 functions:
   auth:

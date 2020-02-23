@@ -12,7 +12,7 @@ export default {
   Mutation: {
     createPost: async (_, { title, content }, { dataSources, userId }) => {
       if (userId === ANONYMOUS_USER) {
-        throw new Error('Anonymous user not allowed to create posts!')
+        throw new Error('Anonymous users are not allowed to create posts!')
       }
       const newPost = await dataSources.postAPI.createPost({
         userId,

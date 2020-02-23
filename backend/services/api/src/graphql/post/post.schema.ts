@@ -15,6 +15,7 @@ const typeDefs = gql`
     postId: ID!
     title: String!
     content: String
+    # tags: [Tag!]!
   }
 
   type PostUpdateResponse {

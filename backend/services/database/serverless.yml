@@ -3,6 +3,7 @@ service: postapp-database
 custom:
   common: ${file(../../serverless.config.json)}
   postTableName: ${self:custom.common.appName}-${self:custom.common.stage}-postTable
+  tagTableName: ${self:custom.common.appName}-${self:custom.common.stage}-tagTable
 
 provider:
   name: aws
@@ -29,6 +30,22 @@ resources:
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST # Set the capacity to auto-scaleT
 
+    TagTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tagTableName}
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: tagId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: tagId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST # Set the capacity to auto-scaleT
+
   Outputs:
     PostTableArn:
       Value:
@@ -37,3 +54,10 @@ resources:
           - Arn
       Export:
         Name: ${self:custom.common.appName}-${self:custom.common.stage}-ExtPostTableArn
+    TagTableArn:
+      Value:
+        Fn::GetAtt:
+          - TagTable
+          - Arn
+      Export:
+        Name: ${self:custom.common.appName}-${self:custom.common.stage}-ExtTagTableArn

@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-lambda'
 import { postSchema } from './post'
-import { helloSchema } from './hello'
+import { tagSchema } from './tag'
 
 const rootSchema = gql`
   type Query {
@@ -12,4 +12,4 @@ const rootSchema = gql`
   }
 `
 // https://medium.com/@choudlet/how-to-combine-graphql-type-definitions-quickly-and-easily-with-apollo-server-c96c4d9a7ea1
-export default [rootSchema, postSchema, helloSchema]
+export default [rootSchema, postSchema, tagSchema]

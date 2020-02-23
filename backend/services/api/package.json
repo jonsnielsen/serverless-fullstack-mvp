@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^8.3.7",
     "@types/jwk-to-pem": "^2.0.0",
+    "@types/lodash": "^4.14.149",
     "@types/request": "^2.48.4",
     "aws-sdk": "^2.623.0"
   }
