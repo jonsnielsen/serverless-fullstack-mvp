@@ -1,31 +1,41 @@
 # Getting started
 
-## Tools needed
+## Prerequisites
 
 an account on AWS  
 Node.js  
 NPM  
 Serverless framework (`npm i -g serverless`)
+An account and app on Serverless Dashboard -> Sign up on https://serverless.com/dashboard/ 
 
 useful videos:  
 https://serverless.com/learn/tutorial/create-an-aws-account/  
 https://serverless.com/learn/tutorial/installing-serverless-framework-via-npm/
+https://serverless.com/learn/tutorial/using-profiles-in-serverless-dashboard/
 
-## Frontend
 
-### Deployment
 
-run `npm run deploy` or `sls`
+## Deployment
+
+### Backend
+
+cd into the folder of each service and firstly run `npm install`. Then run `npm run deploy` for deploying to staging environment or `npm run deploy-prod` for deploying to production environment.
+
+Some steps need to be taken in a specific order since some services rely on resources from the other services. 
+
+1. In the file backend/serverless.config.json, modify the values "region", "appName" and  "awsProfile"
+2. Deploy backend/services/user-pool 
+3. Deploy backend/services/database
+4. In the file backend/serverless.config.json, modify the values for "cognitoIssuer". The values can be found in the "Cognito" service in the AWS Management Console
+5. In the file backend/services/api/serverless.yml modify the values for "org", "app" and "region"
+6. Deploy backend/services/api
+
+### Frontend
+
+
+cd into frontend/ and run `npm run deploy` or `sls`
 
 > Note: it might take up to 30 minutes before the url becomes works correctly as it has to propagate through the dns servers
-
-## Backend
-
-### Deployment
-
-run `npm run deploy` or `sls deploy`
-
-> Note: you need to have an account on the _serverless dashboard_. To create or login, run `sls login`. useful video: https://serverless.com/learn/tutorial/using-profiles-in-serverless-dashboard/
 
 # Using custom domain
 
@@ -42,8 +52,6 @@ inputs:
 ```
 
 Notes: It might take
-
-# deploying first time
 
 # Resources and links
 
