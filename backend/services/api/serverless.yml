@@ -15,7 +15,7 @@ provider:
   name: aws
   runtime: nodejs10.x
   stage: ${self:custom.config.stage}
-  region: us-east-1 # due to a bug, region value cannot come from a variable
+  region: <REGION> # due to a bug, region value cannot come from a variable (in the file)
   profile: ${self:custom.config.awsProfile}
   environment:
     STAGE: ${self:custom.config.stage} # stage is needed in the javascript code
