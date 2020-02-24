@@ -9,7 +9,6 @@ provider:
   name: aws
   stage: ${self:custom.config.stage}
   profile: ${self:custom.config.awsProfile}
-  # region: us-east-1
   region: ${self:custom.config.region}
 
 resources:
